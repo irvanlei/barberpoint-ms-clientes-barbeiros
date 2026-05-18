@@ -1,12 +1,3 @@
 package com.barberpoint.users.infrastructure.repository;
-
-import com.barberpoint.users.domain.entities.Cliente;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
-import java.util.Optional;
-
-@Repository
-public interface ClienteRepository extends JpaRepository<Cliente, Long> {
-    Optional<Cliente> findByEmail(String email);
-}
+/** @deprecated Movido para com.barberpoint.users.clientes.infrastructure.repository.ClienteRepository */
+@Deprecated interface ClienteRepository {}

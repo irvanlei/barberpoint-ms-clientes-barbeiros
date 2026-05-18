@@ -1,8 +1,8 @@
-package com.barberpoint.users.application.services;
+package com.barberpoint.users.clientes.application.usecases;
 
-import com.barberpoint.users.domain.entities.Cliente;
-import com.barberpoint.users.domain.exceptions.ClienteException;
-import com.barberpoint.users.infrastructure.repository.ClienteRepository;
+import com.barberpoint.users.clientes.domain.entities.Cliente;
+import com.barberpoint.users.clientes.domain.exceptions.ClienteException;
+import com.barberpoint.users.clientes.domain.ports.ClienteRepositoryPort;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,22 +16,21 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class ClienteServiceTest {
+class CriarClienteUseCaseTest {
 
     @Mock
-    private ClienteRepository repository;
+    private ClienteRepositoryPort repository;
 
-    private ClienteService service;
+    private CriarClienteUseCase useCase;
 
     @BeforeEach
     void setUp() {
-        service = new ClienteService(repository);
+        useCase = new CriarClienteUseCase(repository);
     }
 
     @SuppressWarnings("null")
     @Test
-    void devecriarClienteComSucesso() {
-        // Arrange
+    void deveCriarClienteComSucesso() {
         Cliente clienteEsperado = new Cliente();
         clienteEsperado.setId(1L);
         clienteEsperado.setNome("João");
@@ -42,10 +41,8 @@ class ClienteServiceTest {
         when(repository.findByEmail("joao@email.com")).thenReturn(Optional.empty());
         when(repository.save(any(Cliente.class))).thenReturn(clienteEsperado);
 
-        // Act
-        var resultado = service.criar("João", "Silva", "joao@email.com", "11999999999");
+        var resultado = useCase.executar("João", "Silva", "joao@email.com", "11999999999");
 
-        // Assert
         assertNotNull(resultado);
         assertEquals("João", resultado.getNome());
         assertEquals("joao@email.com", resultado.getEmail());
@@ -53,30 +50,23 @@ class ClienteServiceTest {
 
     @Test
     void deveLancarExcecaoEmailDuplicado() {
-        // Arrange
         Cliente clienteExistente = new Cliente();
         clienteExistente.setEmail("existente@email.com");
         when(repository.findByEmail("existente@email.com")).thenReturn(Optional.of(clienteExistente));
 
-        // Act & Assert
-        assertThrows(ClienteException.class, () -> {
-            service.criar("João", "Silva", "existente@email.com", "11999999999");
-        });
+        assertThrows(ClienteException.class, () ->
+                useCase.executar("João", "Silva", "existente@email.com", "11999999999"));
     }
 
     @Test
     void deveLancarExcecaoEmailInvalido() {
-        // Act & Assert
-        assertThrows(ClienteException.class, () -> {
-            service.criar("João", "Silva", "emailinvalido", "11999999999");
-        });
+        assertThrows(ClienteException.class, () ->
+                useCase.executar("João", "Silva", "emailinvalido", "11999999999"));
     }
 
     @Test
     void deveLancarExcecaoNomeVazio() {
-        // Act & Assert
-        assertThrows(ClienteException.class, () -> {
-            service.criar("", "Silva", "joao@email.com", "11999999999");
-        });
+        assertThrows(ClienteException.class, () ->
+                useCase.executar("", "Silva", "joao@email.com", "11999999999"));
     }
 }
