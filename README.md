@@ -173,5 +173,12 @@ CREATE TABLE servicos (
 
 ---
 
+## Autores
+- Irvanlei de Abreu
+- João Yutaka
+- Fellipe
+- Nelson
+- Allan
+
 **Mantido por**: BarberPoint Team  
 **Última atualização**: 27 de abril de 2026
