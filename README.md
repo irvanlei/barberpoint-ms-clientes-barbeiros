@@ -8,24 +8,16 @@ Microserviço responsável por gerenciar clientes, barbeiros e serviços em uma 
 
 ```
 src/main/java/com/barberpoint/users/
-├── api/
-│   └── controllers/       # REST endpoints
+├── domain/
+│   └── entities/           # Entidades (Cliente, Barbeiro, Servico)
 ├── application/
 │   ├── usecases/          # Casos de uso (CRUD)
 │   └── dtos/              # Data Transfer Objects
-├── domain/
-│   └── entities/          # Entidades (Cliente, Barbeiro, Servico)
-└── infrastructure/
-    └── repository/       # JPA repositories
+├── infrastructure/
+│   └── repository/        # JPA repositories
+└── api/
+    └── controllers/       # REST endpoints
 ```
-
-Este serviço é um **microservice** independente que gerencia clientes, barbeiros e serviços em uma arquitetura distribuída. Ele provê dados ao BFF e ao frontend, utilizando **Azure SQL** como Database Service.
-
-Padrões aplicados:
-- **Clean Architecture**
-- **Vertical Slice**
-- **API Gateway + BFF + Microservice + Database Service + Serverless**
-- **Event-Driven Architecture** para sincronização de dados entre serviços
 
 ### Clean Architecture
 - **Domain Layer**: Modelos e regras de negócio
@@ -187,3 +179,6 @@ CREATE TABLE servicos (
 - Fellipe
 - Nelson
 - Allan
+
+**Mantido por**: BarberPoint Team  
+**Última atualização**: 27 de abril de 2026
